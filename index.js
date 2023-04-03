@@ -25,13 +25,13 @@ app.use(cors({
 }));
 
 const ingredients = [
-    "Banana Blossom", "Beans", "Bell pepper", "Bouillon", "Breadcrumbs", "Breading Mix", "Butter", "Cabbage", "Calamansi", "Canton",
-    "Carrots", "Celery", "Cheese", "Chickpeas", "Chili Pepper", "Cinamon", "Coconut Milk", "Corn", "Cornstarch",
-    "Cream", "Cream of mushroom", "Curry", "Egg", "Flour", "Garlic", "Ginger", "Gluten", "Green Chili Pepper", "Green Onions",
+    "Baking Powder", "Baking Soda", "Banana Blossom", "Beans", "Bell pepper", "Bouillon", "Breadcrumbs", "Breading Mix", "Butter", "Cabbage", "Calamansi", "Canton",
+    "Carrots", "Celery", "Cheese", "Chickpeas", "Chili Pepper", "Cinamon", "Cocoa", "Coconut", "Coconut Milk", "Corn", "Cornstarch",
+    "Cream", "Cream of mushroom", "Curry", "Dark Brown Sugar", "Egg", "Flour", "Garlic", "Ginger", "Gluten", "Green Beans", "Green Chili Pepper", "Green Onions",
     "Hony", "Laurel leaf", "Luncheon Meat", "Margarine", "Mayonnaise", "Milk", "Moringa", "Mung (Mongo) Beans", "Mushroom", "Nestle cream",
     "Oil", "Onion", "Oregano", "Oyster Sauce", "Patola", "Peanut", "Peas", "Pepper", "Potato", "Pumpkin",
     "Raisin", "Red Chili", "Sayote", "Scallop", "Sili Haba", "Sotanghon", "Soy sauce", "Spag sauce", "Spaghetti (Pasta)", "Sugar",
-    "Tofu", "Tomato", "Tomato sauce", "Turnip", "Vegemeat", "Vinegar", "White Beans", "White Onion", "Green Beans"
+    "Tofu", "Tomato", "Tomato sauce", "Turnip", "Vanilla", "Vegemeat", "Vinegar", "White Beans", "White Onion", "Withe Sugar", "Yeast"
 ]
 
 const products = ["Beans", "Mixed Vegetables", "Noodles", "Pasta", "Tofu", "Vegemeat"]
@@ -41,28 +41,28 @@ const productsWithBarcode = [
         name: "FF Pande Coco",
         barcode: 10009124,
         ingredients: [
-            "Grated Coconut", "Flour", "Milk", "Vegetable Oil", "Dark Brown Sugar", "Vanilla Extract", "Egg", "Butter", "Yeast",
+            "Coconut", "Flour", "Milk", "Oil", "Dark Brown Sugar", "Vanilla", "Egg", "Butter", "Yeast",
         ]
     },
     {
         name: "FF Camachile",
         barcode: 10009122,
-         ingredients: [
-            "Flour", "Egg", "Baking Powder", "Baking Soda", "Sugar", "Butter", "Vanilla", "Powdered Milk",
+        ingredients: [
+            "Flour", "Egg", "Baking Powder", "Baking Soda", "White Sugar", "Butter", "Vanilla", "Milk",
         ]
     },
     {
         name: "FF Pinagong Single",
         barcode: 1660,
-         ingredients: [
-            "Flour", "Sugar", "Dry Yeast", "Powdered Milk", "Vanilla", "Butter", "Cocoa", "Baking Powder",
+        ingredients: [
+            "Flour", "White Sugar", "Yeast", "Milk", "Vanilla", "Butter", "Cocoa", "Baking Powder",
         ]
     },
     {
         name: "FF Spanish Bread",
         barcode: 4220,
         ingredients: [
-            "Flour", "Milk", "Butter", "Yeast", "White Sugar", "Egg", "Bread Crumbs",
+            "Flour", "Milk", "Butter", "Yeast", "White Sugar", "Egg", "Breadcrumbs",
         ]
     },
     {
@@ -140,6 +140,12 @@ const dbConfig = {
     password: 'admin',
     database: 'freedb_Allertify'
 };
+// const dbConfig = {
+//     host: 'localhost',
+//     user: 'root',
+//     password: 'Aslebel#237',
+//     database: 'allertify'
+// };
 
 //create a new connection to the databse
 const ConnectToDatabase = async () => {
@@ -214,6 +220,20 @@ const saveLists = async (req, res, next) => {
     res.json({ message: 'success' })
 }
 
+const saveBarcodeLists = async (req, res, next) => {
+    for (let list of productsWithBarcode) {
+        let [product,] = await Query("SELECT ID FROM product WHERE name = ?", [list.name])
+        for (let ingred of list.ingredients) {
+            let [ingredient,] = await Query("SELECT ID FROM ingredient WHERE name = ?", [ingred])
+            await Query(
+                'INSERT INTO ingredients_list (product_ID, ingredient_ID) VALUES (?, ?)',
+                [product.ID, ingredient.ID]
+            )
+        }
+    }
+    res.json({ message: 'success' })
+}
+
 const postImage = (req, res, next) => {
     console.log(req.files)
     const img = req.files.image;
@@ -234,6 +254,7 @@ const postImage = (req, res, next) => {
 app.post('/ingredients', saveAllIngredients)
 app.post('/products', saveAllProducts)
 app.post('/lists', saveLists)
+app.post('/barcodelist', saveBarcodeLists)
 app.post('/barcode', saveProductsWithBarcode)
 
 app.get('/', async (req, res, next) => {
