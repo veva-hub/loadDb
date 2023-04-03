@@ -97,7 +97,7 @@ const lists = [
     {
         name : "Tofu",
         ingredients : [
-            "Nestle cream", "Breadcrumbs", "Carrots", "Celery", "Cinamon", "Cream of mushroom", 
+            "Cream", "Breadcrumbs", "Carrots", "Celery", "Cinamon", "Cream of mushroom", 
             "Egg", "Milk", "Garlic", "Ginger", "Gluten", "Honey", 
             "Mayonnaise", "Mushroom", "Oregano", "Oyster Sauce", "Pepper", "Red Chili", 
             "Soy sauce", "Sugar", "Tofu", "Vinegar", "White Onion", 
@@ -116,10 +116,11 @@ const lists = [
 ]
 
 const dbConfig = {
-    host: 'localhost',
-    user: 'root',
-    password: 'Aslebel#237',
-    database: 'allertify'
+    host: 'sql.freedb.tech',
+    port: 3306,
+    user: 'admin',
+    password: '',
+    database: 'freedb_Allertify'
 };
 
 //create a new connection to the databse
@@ -212,6 +213,13 @@ app.post('/ingredients', saveAllIngredients)
 app.post('/products', saveAllProducts)
 app.post('/lists', saveLists)
 app.post('/barcode', saveProductsWithBarcode)
+
+app.post('/', async (req, res, next)=>{
+    let conn = await ConnectToDatabase()
+    res.json({message : 'connected'})
+    EndConnection(conn);
+  return result;
+})
 
 app.post('/image', postImage)
 app.get('/', (req, res, next) => {
