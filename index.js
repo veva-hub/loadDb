@@ -136,10 +136,14 @@ const EndConnection = (connection) => {
 
 //execute the query
 async function Query(sql, parms) {
-    let conn = await ConnectToDatabase()
-    let [result,] = await conn.query(sql, parms);
-    EndConnection(conn);
-    return result;
+    try {
+        let conn = await ConnectToDatabase()
+        let [result,] = await conn.query(sql, parms);
+        EndConnection(conn);
+        return result;
+    } catch (e) {
+        console.log('An error occured', e)
+    }
 }
 
 app.use(express.urlencoded({ extended: true, }));
@@ -220,10 +224,6 @@ app.get('/', async (req, res, next) => {
     } catch (e) {
         console.log('An error occured', e)
     }
-    // let mysql2Con = await mysql.createConnection(dbConfig);
-    // mysql2Con.on('error', (err) => {
-    //     console.log('- STATS Mysql2 connection died:', err);
-    // });
     res.json({ message: 'Connected' })
     EndConnection(conn);
     return result;
