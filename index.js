@@ -39,27 +39,45 @@ const products = ["Beans", "Mixed Vegetables", "Noodles", "Pasta", "Tofu", "Vege
 const productsWithBarcode = [
     {
         name: "FF Pande Coco",
-        barcode: 10009124
+        barcode: 10009124,
+        ingredients: [
+            "Grated Coconut", "Flour", "Milk", "Vegetable Oil", "Dark Brown Sugar", "Vanilla Extract", "Egg", "Butter", "Yeast",
+        ]
     },
     {
         name: "FF Camachile",
-        barcode: 10009122
+        barcode: 10009122,
+         ingredients: [
+            "Flour", "Egg", "Baking Powder", "Baking Soda", "Sugar", "Butter", "Vanilla", "Powdered Milk",
+        ]
     },
     {
         name: "FF Pinagong Single",
-        barcode: 1660
+        barcode: 1660,
+         ingredients: [
+            "Flour", "Sugar", "Dry Yeast", "Powdered Milk", "Vanilla", "Butter", "Cocoa", "Baking Powder",
+        ]
     },
     {
         name: "FF Spanish Bread",
-        barcode: 4220
+        barcode: 4220,
+        ingredients: [
+            "Flour", "Milk", "Butter", "Yeast", "White Sugar", "Egg", "Bread Crumbs",
+        ]
     },
     {
         name: "FF Diner Roll",
-        barcode: 7626
+        barcode: 7626,
+        ingredients: [
+            "Flour", "Sugar", "Yeast", "Butter", "Egg", "Milk",
+        ]
     },
     {
         name: "FF Pandesiosa",
-        barcode: 10000283
+        barcode: 10000283,
+        ingredients: [
+            "Flour", "Milk", "Butter", "Yeast", "Sugar", "Egg", "Cheese",
+        ]
     },
 
 ]
