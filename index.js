@@ -3,6 +3,14 @@ const cors = require('cors');
 const mysql = require('promise-mysql2');
 const fileUpload = require('express-fileupload');
 
+const ngrok = require('ngrok');
+(async function () {
+    const url = await ngrok.connect(5000);
+    if (url) {
+        console.log("Tunnel created.\n", url)
+    }
+})();
+
 const app = express();
 const PORT = 5000;
 
@@ -257,7 +265,7 @@ app.post('/lists', saveLists)
 app.post('/barcodelist', saveBarcodeLists)
 app.post('/barcode', saveProductsWithBarcode)
 
-app.get('/', async (req, res, next) => {
+app.get('/db', async (req, res, next) => {
     try {
         let conn = await ConnectToDatabase()
     } catch (e) {
